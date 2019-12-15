@@ -129,14 +129,14 @@ int main() {
 	ofstream mywriteoutfile;
 	                                                                                                          
 	double correctav=0;
-	string optimizer = param->optimization_type;
+	
 	double NL = static_cast<RealDevice*>(arrayIH->cell[0][0])->NL_LTP;
 	int N = param->NumcellPerSynapse;
 	int CS = static_cast<RealDevice*>(arrayIH->cell[0][0])->maxNumLevelLTP;
 	double LA = param->alpha1;
-	printf("opt: %s NL:%.2f N: %d CS: %d LA: %.2f\n", optimizer, NL, N, CS, LA);
+	printf("opt: %s NL:%.2f N: %d CS: %d LA: %.2f\n", param->optimization_type, NL, N, CS, LA);
 	string filename;
-	filename.append(optimizer);
+	filename.append(param->optimization_type);
 	char tempfile[10];
 	sprintf(tempfile, "%.2f", NL);
 	filename.append(tempfile);
