@@ -373,7 +373,7 @@ double RealDevice::Read(double voltage) {	// Return read current (A)
 }
 
 void RealDevice::Write(double deltaWeightNormalized, double weight, double minWeight, double maxWeight,int NumCell) {
-	double conductanceNew = conductance;	// =conductance if no update
+	double conductanceNew = 0;	// =conductance if no update
 	double conductanceNewN= conductanceN[NumCell];
 	deltaWeightNormalized = deltaWeightNormalized / (maxWeight - minWeight);
 	deltaWeightNormalized = NumCellperSynapse * deltaWeightNormalized;
@@ -452,11 +452,16 @@ void RealDevice::Write(double deltaWeightNormalized, double weight, double minWe
 			writePulseWidthLTD = writeLatencyLTD / (-numPulse);
 		}
 	}
-	
 	conductancePrev = conductance;
-	conductanceNew = conductanceNew - conductanceN[NumCell] + conductanceNewN;
 	conductanceN[NumCell] = conductanceNewN;
-	conductance = conductanceNew;
+	for(int i=0; i<NumCellperSynapse;i++){
+		conductanceNew += conductanceN[i];
+	}
+	conductance = conductanceNew;	
+	// conductancePrev = conductance;
+	// conductanceNew = conductanceNew - conductanceN[NumCell] + conductanceNewN;
+	// conductanceN[NumCell] = conductanceNewN;
+	// conductance = conductanceNew;
 }
 
 /* Measured device */
